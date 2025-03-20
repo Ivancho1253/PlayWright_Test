@@ -31,8 +31,8 @@ test('Inicio de sesion valido', async ({ page }) => {
   await expect(page).toHaveURL(URL2);
 });
 
-//Test para saber si se muestra el mensaje de error
-test('Inicio de sesion invalido', async ({ page }) => {
+//Test 1 para saber si se muestra el mensaje de error
+test('Inicio de sesion invalido 1', async ({ page }) => {
 
   const URL1 = process.env.UCP_URL1;
 
@@ -49,7 +49,7 @@ test('Inicio de sesion invalido', async ({ page }) => {
 
   //Se espera que sea visible el bloque de texto y se escribe una contraseña incorrecta
   await page.waitForSelector('input[placeholder="Contraseña"]', { state: 'visible' });
-  await page.fill('input[placeholder="Contraseña"]','abc');
+  await page.fill('input[placeholder="Contraseña"]','demo');
 
   // Esperar a que el botón esté visible y hacer clic
   await page.waitForSelector('#ctl00_ContentPlaceHolder1_ImageButton1', { state: 'visible' });
@@ -59,5 +59,35 @@ test('Inicio de sesion invalido', async ({ page }) => {
   await expect(page.locator('#ctl00_ContentPlaceHolder1_Label2')).toBeVisible();
   await expect(page.locator('#ctl00_ContentPlaceHolder1_Label2')).toHaveText(/usuario y clave no coincide/);
 
+
+});
+
+//Test 2 para saber si se muestra el mensaje de error
+test('Inicio de sesion invalido 2', async ({ page }) => {
+
+  const URL1 = process.env.UCP_URL1;
+
+  //Verificar si las variables de entorno estan vacias
+  if (!URL1) {
+    throw new Error('Faltan variables de entorno en el archivo .env');
+  }
+
+  await page.goto(URL1);
+
+  //Se espera que sea visible el bloque de texto y se escribe un usuario incorrecto
+  await page.waitForSelector('input[placeholder="Usuario"]', { state: 'visible' });
+  await page.fill('input[placeholder="Usuario"]', 'abc');
+
+  //Se espera que sea visible el bloque de texto y se escribe una contraseña incorrecta
+  await page.waitForSelector('input[placeholder="Contraseña"]', { state: 'visible' });
+  await page.fill('input[placeholder="Contraseña"]','demo');
+
+  // Esperar a que el botón esté visible y hacer clic
+  await page.waitForSelector('#ctl00_ContentPlaceHolder1_ImageButton1', { state: 'visible' });
+  await page.locator('#ctl00_ContentPlaceHolder1_ImageButton1').click();
+
+  // Verificar el mensaje de error
+  await expect(page.locator('#ctl00_ContentPlaceHolder1_Label2')).toBeVisible();
+  await expect(page.locator('#ctl00_ContentPlaceHolder1_Label2')).toHaveText(/usuario y clave no coincide/);
 
 });
