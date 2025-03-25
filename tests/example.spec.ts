@@ -29,6 +29,10 @@ test('Inicio de sesion valido', async ({ page }) => {
 
   // Verificar la URL final
   await expect(page).toHaveURL(URL2);
+
+  // Revisar que aparezca mi informacion
+  await page.waitForSelector('#ctl00_Label1', { state: 'visible' });
+  await expect(page.locator('#ctl00_Label1')).toHaveText(/Cabrera, Ivan Gonzalo/);
 });
 
 //Test 1 para saber si se muestra el mensaje de error
