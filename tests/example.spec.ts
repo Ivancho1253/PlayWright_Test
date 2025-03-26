@@ -28,7 +28,7 @@ test('Inicio de sesion valido', async ({ page }) => {
   await page.waitForSelector('#ctl00_ContentPlaceHolder1_ImageButton1', { state: 'visible' });
   await page.locator('#ctl00_ContentPlaceHolder1_ImageButton1').click();
 
-  // Verificar la URL final
+  // Verificar la URL final osea que cambio de pagina
   await expect(page).toHaveURL(URL2);
 
   // Revisar que aparezca mi informacion
@@ -49,12 +49,12 @@ test('Inicio de sesion invalido 1', async ({ page }) => {
   await page.goto(URL1);
 
   //Se espera que sea visible el bloque de texto y se escribe un usuario incorrecto
-  await page.waitForSelector('input[placeholder="Usuario"]', { state: 'visible' });
-  await page.fill('input[placeholder="Usuario"]', '666');
+  await page.waitForSelector('#ctl00_ContentPlaceHolder1_TextBox1', { state: 'visible' });
+  await page.fill('#ctl00_ContentPlaceHolder1_TextBox1', '666');
 
   //Se espera que sea visible el bloque de texto y se escribe una contraseña incorrecta
-  await page.waitForSelector('input[placeholder="Contraseña"]', { state: 'visible' });
-  await page.fill('input[placeholder="Contraseña"]','demo');
+  await page.waitForSelector('#ctl00_ContentPlaceHolder1_Clave', { state: 'visible' });
+  await page.fill('#ctl00_ContentPlaceHolder1_Clave','demo');
 
   // Esperar a que el botón esté visible y hacer clic
   await page.waitForSelector('#ctl00_ContentPlaceHolder1_ImageButton1', { state: 'visible' });
@@ -80,12 +80,12 @@ test('Inicio de sesion invalido 2', async ({ page }) => {
   await page.goto(URL1);
 
   //Se espera que sea visible el bloque de texto y se escribe un usuario incorrecto
-  await page.waitForSelector('input[placeholder="Usuario"]', { state: 'visible' });
-  await page.fill('input[placeholder="Usuario"]', 'abc');
+  await page.waitForSelector('#ctl00_ContentPlaceHolder1_TextBox1', { state: 'visible' });
+  await page.fill('#ctl00_ContentPlaceHolder1_TextBox1', 'abc');
 
   //Se espera que sea visible el bloque de texto y se escribe una contraseña incorrecta
-  await page.waitForSelector('input[placeholder="Contraseña"]', { state: 'visible' });
-  await page.fill('input[placeholder="Contraseña"]','demo');
+  await page.waitForSelector('#ctl00_ContentPlaceHolder1_Clave', { state: 'visible' });
+  await page.fill('#ctl00_ContentPlaceHolder1_Clave','demo');
 
   // Esperar a que el botón esté visible y hacer clic
   await page.waitForSelector('#ctl00_ContentPlaceHolder1_ImageButton1', { state: 'visible' });
