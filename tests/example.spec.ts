@@ -17,11 +17,12 @@ test('Inicio de sesion valido', async ({ page }) => {
 
   await page.goto(URL1);
 
-  await page.waitForSelector('input[placeholder="Usuario"]', { state: 'visible' });
-  await page.fill('input[placeholder="Usuario"]', usuario);
+  //Espero a que los campos de Usuario y contraseña esten visibles y los completo con mis credenciales secretas
+  await page.waitForSelector('#ctl00_ContentPlaceHolder1_TextBox1', { state: 'visible' });
+  await page.fill('#ctl00_ContentPlaceHolder1_TextBox1', usuario);
 
-  await page.waitForSelector('input[placeholder="Contraseña"]', { state: 'visible' });
-  await page.fill('input[placeholder="Contraseña"]', password);
+  await page.waitForSelector('#ctl00_ContentPlaceHolder1_Clave', { state: 'visible' });
+  await page.fill('#ctl00_ContentPlaceHolder1_Clave', password);
 
   // Esperar a que el botón esté visible y hacer clic
   await page.waitForSelector('#ctl00_ContentPlaceHolder1_ImageButton1', { state: 'visible' });
