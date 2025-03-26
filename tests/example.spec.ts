@@ -94,5 +94,106 @@ test('Inicio de sesion invalido 2', async ({ page }) => {
   // Verificar el mensaje de error
   await expect(page.locator('#ctl00_ContentPlaceHolder1_Label2')).toBeVisible();
   await expect(page.locator('#ctl00_ContentPlaceHolder1_Label2')).toHaveText(/usuario y clave no coincide/);
+  });
+  ///////////////////
+
+  
+  test('TEST VALIDO PRUEBA HORARIOS - MATERIAS', async ({ page }) => {
+
+    const URL1 = process.env.UCP_URL1;
+    const URL2 = process.env.UCP_URL2;
+    const URL3 = process.env.UCP_URL3;
+    const usuario = process.env.UCP_USER;
+    const password = process.env.UCP_PASS;
+
+  //Verificar si las variables de entorno estan vacias
+  if (!URL1 || !URL2 || !usuario || !password || !URL3) {
+    throw new Error('Faltan variables de entorno en el archivo .env');
+  }
+  
+  // Caso exitoso credenciales funcionando
+  await page.goto(URL1);
+
+  // Esperar que los campos de usuario y contraseña estén visibles
+  await page.waitForSelector('input[placeholder="Usuario"]', { state: 'visible' });
+  await page.waitForSelector('input[placeholder="Contraseña"]', { state: 'visible' });
+
+  // Llenar usuario y contraseña con las credenciales 
+  await page.getByPlaceholder('Usuario').fill(usuario);
+  await page.getByPlaceholder('Contraseña').fill(password);
+  
+  // Hace click en el boton de ingresar
+  const botonIngresar = await page.locator('input[name="ctl00$ContentPlaceHolder1$ImageButton1"]'); //Se usa porque input no tiene texto 
+  await botonIngresar.click();
+
+  //Se verifica que se redirife correctamente
+  await expect(page).toHaveURL(URL2);
+
+  //Se ingresa a cursado
+  const botonCursado = await page.locator('#ctl00_PanelCursado_header'); 
+  await botonCursado.click();
+
+
+  // Seleccionar el apartado de "Materias - Horarios - Aulas"
+  const materiasLink = await page.locator('a[href="MateriaHorarioAula.aspx?Sel=0"]'); //Se usa href como identificador
+
+  //Hacer click en el apartado 
+  await materiasLink.click();  
+
+  //Esperamos que cambie de URL hacia MateriaHorarioAula
+  await expect(page).toHaveURL(URL3);
 
 });
+
+
+test('TEST INVALIDO INGRESO A INASISTENCIA', async ({ page }) => {
+
+  const URL1 = process.env.UCP_URL1;
+  const URL2 = process.env.UCP_URL2;
+  const URL3 = process.env.UCP_URL4;
+  const usuario = process.env.UCP_USER;
+  const password = process.env.UCP_PASS;
+
+//Verificar si las variables de entorno estan vacias
+if (!URL1 || !URL2 || !usuario || !password || !URL3) {
+  throw new Error('Faltan variables de entorno en el archivo .env');
+}
+
+  // Caso exitoso credenciales funcionando
+  await page.goto(URL1);
+
+  // Esperar que los campos de usuario y contraseña estén visibles
+  await page.waitForSelector('input[placeholder="Usuario"]', { state: 'visible' });
+  await page.waitForSelector('input[placeholder="Contraseña"]', { state: 'visible' });
+
+  // Llenar usuario y contraseña con las credenciales 
+  await page.getByPlaceholder('Usuario').fill(usuario);
+  await page.getByPlaceholder('Contraseña').fill(password);
+  
+  // Hace click en el boton de ingresar
+  const botonIngresar = await page.locator('input[name="ctl00$ContentPlaceHolder1$ImageButton1"]'); //Se usa porque input no tiene texto 
+  await botonIngresar.click();
+
+  //Se verifica que se redirife correctamente
+  await expect(page).toHaveURL(URL2);
+
+  //Se ingresa a cursado
+  const botonCursado = await page.locator('#ctl00_PanelCursado_header'); 
+  await botonCursado.click();
+
+
+  //Seleccionar el apartado de "Inasistencias"
+  const materiasLink = await page.locator('a[href="Inasistencias.aspx?Sel=1"]'); //Se usa href como identificador
+
+  //Hacer click en el apartado 
+  await materiasLink.click();
+
+  //Esperamos que cambie de URL hacia Inasistencias
+  await expect(page).toHaveURL(URL3);
+
+  
+});
+
+
+  
+
